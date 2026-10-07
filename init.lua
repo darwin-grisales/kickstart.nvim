@@ -504,10 +504,12 @@ require('lazy').setup({
       -- Automatically install LSPs and related tools to stdpath for Neovim
       -- Mason must be loaded before its dependents so we need to set it up here.
       -- NOTE: `opts = {}` is the same as calling `require('mason').setup({})`
-      { 'williamboman/mason.nvim', version = 'stable', opts = {} },
-      'williamboman/mason-lspconfig.nvim',
+      -- { 'williamboman/mason.nvim', version = '1.11.0', opts = {} },
+      -- 'williamboman/mason-lspconfig.nvim',
+      -- 'WhoIsSethDaniel/mason-tool-installer.nvim',
+      { 'mason-org/mason.nvim', opts = {} },
+      'mason-org/mason-lspconfig.nvim',
       'WhoIsSethDaniel/mason-tool-installer.nvim',
-
       -- Useful status updates for LSP.
       { 'j-hui/fidget.nvim', opts = {} },
 
@@ -810,19 +812,19 @@ require('lazy').setup({
       local ensure_installed = vim.tbl_keys(servers)
       local extra_servers = {
         -- Formatters
-        'prettier',       -- JS/TS/HTML/CSS/YAML/Markdown
-        'stylua',         -- Lua
-        'black',          -- Python
-        'isort',          -- Python imports
-        'sql-formatter',  -- SQL
+        'prettier', -- JS/TS/HTML/CSS/YAML/Markdown
+        'stylua', -- Lua
+        'black', -- Python
+        'isort', -- Python imports
+        'sql-formatter', -- SQL
         -- Linters
-        'eslint-lsp',         -- JS/TS/Angular
-        'stylelint',          -- CSS
-        'golangci-lint',      -- Go
+        'eslint-lsp', -- JS/TS/Angular
+        'stylelint', -- CSS
+        'golangci-lint', -- Go
         'golangci-lint-langserver',
-        'tflint',             -- Terraform (linter, mason name)
-        'yamllint',           -- YAML
-        'markdownlint',       -- Markdown
+        'tflint', -- Terraform (linter, mason name)
+        'yamllint', -- YAML
+        'markdownlint', -- Markdown
       }
       vim.list_extend(ensure_installed, extra_servers)
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
@@ -1011,7 +1013,6 @@ require('lazy').setup({
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
 
-
   { -- Collection of various small independent plugins/modules
     'echasnovski/mini.nvim',
     config = function()
@@ -1051,11 +1052,28 @@ require('lazy').setup({
   },
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
+    branch = 'main',
     build = ':TSUpdate',
-    main = 'nvim-treesitter.configs', -- Sets main module to use for opts
+    -- main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
-      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'typescript', 'javascript', 'groovy', 'kotlin' },
+      ensure_installed = {
+        'bash',
+        'c',
+        'diff',
+        'html',
+        'lua',
+        'luadoc',
+        'markdown',
+        'markdown_inline',
+        'query',
+        'vim',
+        'vimdoc',
+        'typescript',
+        'javascript',
+        'groovy',
+        'kotlin',
+      },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
