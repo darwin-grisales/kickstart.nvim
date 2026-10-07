@@ -429,12 +429,39 @@ require('lazy').setup({
         -- You can put your default mappings / updates / etc. in here
         --  All the info you're looking for is in `:help telescope.setup()`
         --
-        -- defaults = {
-        --   mappings = {
-        --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
-        --   },
-        -- },
-        -- pickers = {}
+        defaults = {
+          -- Forzamos a mantener el diseño horizontal (columnas)
+          layout_strategy = 'horizontal',
+
+          layout_config = {
+            horizontal = {
+              width = 0.95, -- ¡Usa el 95% del ancho de tu pantalla!
+              height = 0.85, -- Usa el 85% de la altura
+              preview_width = 0.60, -- Dale más prioridad al código: 60% para el preview, 40% para la lista
+
+              prompt_position = 'top', -- OPCIONAL: Mueve la barra de búsqueda arriba para más comodidad
+            },
+          },
+
+          sorting_strategy = 'ascending', -- Solo si decides poner el prompt arriba
+
+          -- 1. COLOCAR NÚMEROS DE LÍNEA EN EL PREVIEW
+          -- Esta tabla pasa configuraciones directas a las ventanas flotantes de Telescope
+          winblend = 0,
+          wrap = false,
+
+          -- 2. IGNORAR CARPETAS PESADAS O ARCHIVOS COMINES
+          -- Usa expresiones regulares sencillas para omitir directorios de dependencias o compilación
+          file_ignore_patterns = {
+            'node_modules/.*',
+            '%.git/.*',
+            'target/.*',
+            'build/.*',
+            'dist/.*',
+            'venv/.*',
+            '%.DS_Store',
+          },
+        },
         extensions = {
           ['ui-select'] = {
             require('telescope.themes').get_dropdown(),
@@ -442,6 +469,14 @@ require('lazy').setup({
         },
       }
 
+      -- Forzar números de línea relativos o normales dentro de la ventana de preview de Telescope
+      vim.api.nvim_create_autocmd('User', {
+        pattern = 'TelescopePreviewerLoaded',
+        callback = function()
+          vim.wo.number = true
+          vim.wo.relativenumber = false -- Cambia a true si prefieres números relativos
+        end,
+      })
       -- Enable Telescope extensions if they are installed
       pcall(require('telescope').load_extension, 'fzf')
       pcall(require('telescope').load_extension, 'ui-select')

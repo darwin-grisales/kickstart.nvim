@@ -1,1 +1,1 @@
-return require 'custom.plugins.themes.darcula'
+return require 'custom.plugins.themes.dark_modern'
